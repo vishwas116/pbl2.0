@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - AgriConnect</title>
+    <style>
+        /* Advanced color palette */
+        :root {
+            --primary-color: #2E7D32; /* Deep forest green */
+            --secondary-color: #81C784; /* Light green */
+            --accent-color: #FFA000; /* Warm amber */
+            --text-color: #263238; /* Dark blue-grey */
+            --light-text: #ECEFF1; /* Off-white */
+            --background-light: #F9FBE7; /* Light leaf */
+            --card-bg: #FFFFFF;
+            --sidebar-bg: #1B5E20; /* Dark green */
+            --hover-color: #E8F5E9; /* Very light green */
+            --border-color: #BDBDBD; /* Light grey */
+            --notification-color: #F44336; /* Red */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: var(--light-text);
+            padding: 1.5rem 0;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu {
+            padding: 1.5rem 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--light-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: var(--accent-color);
+            border-left: 4px solid var(--light-text);
+        }
+
+        .menu-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-text {
+            font-size: 1.2rem;
+        }
+
+        .welcome-text span {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .search-bar {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            width: 300px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 1rem;
+            position: relative;
+            color: var(--text-color);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--notification-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 1rem;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Features Grid */
+        .features-container {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-img {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .feature-content {
+            padding: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .feature-description {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .feature-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+        }
+
+        .feature-btn:hover {
+            background-color: #1B5E20;
+        }
+
+        /* Quick Stats */
+        .stats-container {
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+                color: var(--text-color);
+                font-size: 0.9rem;
+            }
+
+            /* Recent Activity */
+            .activity-container {
+                margin-bottom: 2rem;
+            }
+
+            .activity-list {
+                background-color: var(--card-bg);
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+
+            .activity-item {
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+            }
+
+            .activity-item:last-child {
+                border-bottom: none;
+            }
+
+            .activity-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: var(--secondary-color);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 1rem;
+                color: var(--light-text);
+                font-size: 1.2rem;
+            }
+
+            .activity-content {
+                flex: 1;
+            }
+
+            .activity-title {
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+            }
+
+            .activity-time {
+                font-size: 0.8rem;
+                color: #757575;
+            }
+
+            .activity-action {
+                color: var(--primary-color);
+                font-weight: 600;
+                cursor: pointer;
+                transition: color 0.3s ease;
+            }
+
+            .activity-action:hover {
+                color: var(--accent-color);
+            }
+
+            /* Weather Widget */
+            .weather-widget {
+                background-color: var(--card-bg);
+                border-radius: 8px;
+                padding: 1.5rem;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                margin-bottom: 2rem;
+            }
+
+            .weather-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .current-weather {
+                display: flex;
+                align-items: center;
+            }
+
+            .weather-icon {
+                font-size: 3rem;
+                color: var(--accent-color);
+                margin-right: 1rem;
+            }
+
+            .weather-info {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .weather-temp {
+                font-size: 2rem;
+                font-weight: 700;
+            }
+
+            .weather-desc {
+                font-size: 1rem;
+                color: #757575;
+            }
+
+            .weather-location {
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            .weather-forecast {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .forecast-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem;
+                border-radius: 8px;
+                transition: background-color 0.3s ease;
+            }
+
+            .forecast-item:hover {
+                background-color: var(--hover-color);
+            }
+
+            .forecast-day {
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .forecast-icon {
+                font-size: 1.5rem;
+                color: var(--accent-color);
+                margin-bottom: 0.5rem;
+            }
+
+            .forecast-temp {
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            /* Responsive */
+            @media (max-width: 1024px) {
+                .sidebar {
+                    width: 70px;
+                }
+
+                .sidebar-header h2,
+                .menu-text {
+                    display: none;
+                }
+
+                .menu-icon {
+                    margin-right: 0;
+                    font-size: 1.5rem;
+                }
+
+                .main-content {
+                    margin-left: 70px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .search-input {
+                    width: 200px;
+                }
+
+                .stats-grid,
+                .features-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .top-nav {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .search-bar {
+                    margin: 1rem 0;
+                    width: 100%;
+                }
+
+                .search-input {
+                    width: 100%;
+                }
+
+                .user-actions {
+                    margin-top: 1rem;
+                    width: 100%;
+                    justify-content: flex-end;
+                }
+            }
+
+            .hidden {
+                display: none;
+            }
+        </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>AgriConnect</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="home.html" class="menu-item active">
+                <span class="menu-icon">🏠</span>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <span class="menu-icon">👤</span>
+                <span class="menu-text">Profile</span>
+            </a>
+            <a href="chatrooms.html" class="menu-item">
+                <span class="menu-icon">💬</span>
+                <span class="menu-text">Chatrooms</span>
+            </a>
+            <a href="weather.html" class="menu-item">
+                <span class="menu-icon">🌦️</span>
+                <span class="menu-text">Weather</span>
+            </a>
+            <a href="crop-disease.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span class="menu-text">Crop Disease</span>
+            </a>
+            <a href="forums.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span class="menu-text">Forums</span>
+            </a>
+            <a href="ecommerce.html" class="menu-item">
+                <span class="menu-icon">🛒</span>
+                <span class="menu-text">E-commerce</span>
+            </a>
+            <a href="expert-advice.html" class="menu-item">
+                <span class="menu-icon">👨‍🔬</span>
+                <span class="menu-text">Expert Advice</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Navigation Bar -->
+        <div class="top-nav">
+            <div class="welcome-text">
+                Welcome back, <span>John Farmer</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search...">
+                <button class="search-btn">🔍</button>
+            </div>
+            <div class="user-actions">
+                <button class="icon-btn">
+                    📨
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="icon-btn">
+                    🔔
+                    <span class="notification-badge">5</span>
+                </button>
+                <img src="/api/placeholder/40/40" alt="User Avatar" class="user-avatar">
+            </div>
+        </div>
+
+        <!-- Weather Widget -->
+        <section class="weather-widget">
+            <div class="weather-header">
+                <h2 class="section-title">Weather</h2>
+                <span class="weather-location">Agriville, CA</span>
+            </div>
+            <div class="current-weather">
+                <div class="weather-icon">☀️</div>
+                <div class="weather-info">
+                    <span class="weather-temp">72°F</span>
+                    <span class="weather-desc">Sunny, perfect for harvesting</span>
+                </div>
+            </div>
+            <div class="weather-forecast">
+                <div class="forecast-item">
+                    <span class="forecast-day">Mon</span>
+                    <span class="forecast-icon">☀️</span>
+                    <span class="forecast-temp">74°F</span>
+                </div>
+                <div class="forecast-item">
+                    <span class="forecast-day">Tue</span>
+                    <span class="forecast-icon">⛅</span>
+                    <span class="forecast-temp">71°F</span>
+                </div>
+                <div class="forecast-item">
+                    <span class="forecast-day">Wed</span>
+                    <span class="forecast-icon">🌧️</span>
+                    <span class="forecast-temp">65°F</span>
+                </div>
+                <div class="forecast-item">
+                    <span class="forecast-day">Thu</span>
+                    <span class="forecast-icon">🌧️</span>
+                    <span class="forecast-temp">68°F</span>
+                </div>
+                <div class="forecast-item">
+                    <span class="forecast-day">Fri</span>
+                    <span class="forecast-icon">⛅</span>
+                    <span class="forecast-temp">72°F</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Stats -->
+        <section class="stats-container">
+            <h2 class="section-title">Your Farm Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-icon">🌱</span>
+                    <span class="stat-value">4</span>
+                    <span class="stat-label">Active Crops</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🔍</span>
+                    <span class="stat-value">2</span>
+                    <span class="stat-label">Disease Detections</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">📈</span>
+                    <span class="stat-value">87%</span>
+                    <span class="stat-label">Crop Health Score</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">📊</span>
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Days Until Harvest</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="activity-container">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon">🔍</div>
+                    <div class="activity-content">
+                        <h3 class="activity-title">New Disease Detection Result</h3>
+                        <p>Your corn leaf analysis is complete. Possible early signs of leaf blight detected.</p>
+                        <span class="activity-time">Today, 10:45 AM</span>
+                    </div>
+                    <span class="activity-action">View</span>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">💬</div>
+                    <div class="activity-content">
+                        <h3 class="activity-title">New Message in Corn Growers Community</h3>
+                        <p>Sarah posted: "Has anyone tried the new drought-resistant corn variety?"</p>
+                        <span class="activity-time">Yesterday, 3:22 PM</span>
+                    </div>
+                    <span class="activity-action">Reply</span>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">👨‍🔬</div>
+                    <div class="activity-content">
+                        <h3 class="activity-title">Expert Advice Session Scheduled</h3>
+                        <p>Your appointment with Dr. Rodriguez has been confirmed for April 8, 2025.</p>
+                        <span class="activity-time">April 5, 2025</span>
+                    </div>
+                    <span class="activity-action">Details</span>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🛒</div>
+                    <div class="activity-content">
+                        <h3 class="activity-title">Order Shipped</h3>
+                        <p>Your order #AG2587 for organic pesticides has been shipped.</p>
+                        <span class="activity-time">April 4, 2025</span>
+                    </div>
+                    <span class="activity-action">Track</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="features-container">
+            <h2 class="section-title">Quick Access</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="window.location.href='crop-disease.html'">
+                    <div class="feature-img" style="background-image: url('/api/placeholder/400/300');"></div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Crop Disease Detection</h3>
+                        <p class="feature-description">Upload images of your crops and get instant diagnosis with treatment recommendations.</p>
+                        <button class="feature-btn">Analyze Crops</button>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='weather.html'">
+                    <div class="feature-img" style="background-image: url('/api/placeholder/400/300');"></div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Detailed Weather Forecast</h3>
+                        <p class="feature-description">Get accurate agricultural weather predictions for the next 7 days.</p>
+                        <button class="feature-btn">View Forecast</button>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='expert-advice.html'">
+                    <div class="feature-img" style="background-image: url('/api/placeholder/400/300');"></div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Expert Advice</h3>
+                        <p class="feature-description">Connect with agricultural specialists for personalized guidance.</p>
+                        <button class="feature-btn">Book Consultation</button>
+                    </div>
+                </div>
+                <div class="feature-card" onclick="window.location.href='forums.html'">
+                    <div class="feature-img" style="background-image: url('/api/placeholder/400/300');"></div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Community Forums</h3>
+                        <p class="feature-description">Join discussions with fellow farmers and share knowledge.</p>
+                        <button class="feature-btn">Join Discussions</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+            document.querySelector('.main-content').classList.toggle('expanded');
+        }
+
+        // Simulate loading real data
+        document.addEventListener('DOMContentLoaded', function() {
+            // You would fetch actual data from your API here
+            console.log('Dashboard loaded, would fetch user data here in production');
+        });
+    </script>
+</body>
+</html>
